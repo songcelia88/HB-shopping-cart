@@ -89,8 +89,10 @@ def show_shopping_cart():
             # print("melon total price is " ,melon.total_price)
             order_total += melon.total_price
             cart_list.append(melon)
+    else:
+        flash("No items in your cart!")
 
-    print(order_total, cart_list)
+    # print(order_total, cart_list)
 
     return render_template("cart.html", order_total=order_total, cart_list=cart_list)
 
