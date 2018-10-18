@@ -6,7 +6,8 @@ put melons in a shopping cart.
 Authors: Joel Burton, Christian Fernandez, Meggie Mahnken, Katie Byers.
 """
 
-from flask import Flask, render_template, redirect, flash, session
+from flask import Flask, render_template, redirect, flash, session, request
+from flask_debugtoolbar import DebugToolbarExtension
 import jinja2
 
 import melons
@@ -119,6 +120,7 @@ def add_to_cart(melon_id):
     if 'cart' not in session:
         session['cart'] = {}
 
+
     if melon_id in session['cart']:
         session['cart'][melon_id] += 1
     else:
@@ -126,7 +128,7 @@ def add_to_cart(melon_id):
 
     flash("Melon added to cart!")
 
-    print(session['cart'])
+    # print(session['cart'])
 
     return redirect('/cart')
 
@@ -159,6 +161,9 @@ def process_login():
     #   message and redirect the user to the "/melons" route
     # - if they don't, flash a failure message and redirect back to "/login"
     # - do the same if a Customer with that email doesn't exist
+    
+    user_email = request.form.get('email')
+    print(user_email)
 
     return "Oops! This needs to be implemented"
 
@@ -175,4 +180,10 @@ def checkout():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    
+    app.debug = True
+    DebugToolbarExtension(app)
+
+    app.run(host="0.0.0.0")
+    # app.run(debug=True)
+
